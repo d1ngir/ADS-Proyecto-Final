@@ -1,0 +1,4 @@
+CORRECCIONES:
+
+1. El encabezado de funciones (.hpp) solo deberá contener la declaración de las clases y los métodos.
+2. "libros.cpp" implementará las clases del encabezado de funciones.
