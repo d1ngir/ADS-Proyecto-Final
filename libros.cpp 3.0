@@ -1,0 +1,65 @@
+#include "libros.hpp"
+#include <iostream>
+#include <vector>
+#include <string>
+
+
+
+
+using namespace std;
+using namespace biblioteca;
+
+
+
+Libro::Libro()
+{
+    this->nlibro = "";
+    this->alibro = "";
+    this->glibro = "";
+    this->elibro = "";
+}
+
+
+Libro::Libro(string nlibro, string alibro, string glibro, string elibro)
+{
+    this->nlibro = nlibro;
+    this->alibro = alibro;
+    this->glibro = glibro;
+    this->elibro = elibro;
+}
+
+
+
+
+Lista::Lista() {}
+
+Lista::~Lista() {}
+
+int Lista::size() {
+    return libros.size(); 
+}
+
+void Lista::agregar(Libro libro) {
+    libros.push_back(libro); 
+}
+
+vector<string> Lista::getLista() {
+    vector<string> nombres;
+    for (auto& libro : libros) {
+        nombres.push_back(libro.getNlibro());
+    }
+    return nombres;
+}
+
+string Lista::lista() {
+    string resultado;
+    for (size_t i = 0; i < libros.size(); ++i) {
+        resultado += to_string(i + 1) + ". " + libros[i].getNlibro() + " - " + libros[i].getAlibro() +
+                     " - " + libros[i].getGlibro() + " - " + libros[i].getElibro() + "\n";
+    }
+    return resultado;
+}
+
+Libro& Lista::getLibro(int index) {
+    return libros.at(index); 
+}
