@@ -1,0 +1,12 @@
+Cambios:
+1. Ahora cada proceso del programa base ("bdig.cpp") está definido como función antes del la función "main". Esto para no reescribir tanto código muchas veces
+2. Se añadió clases "Lista" para libros, clientes y trabajadores.
+3. Ahora los clientes y trabajadores se almacenan en listas.
+
+
+
+Correcciones:
+
+1. Falta hacer clase abstracta "Usuario" con virtual void.
+2. Para ticket de préstamo de libros, usar archivos.
+3. Falta establecer fechas para determinar si hay multa o no.
