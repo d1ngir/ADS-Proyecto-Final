@@ -1,0 +1,451 @@
+#include "libros.hpp"
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+
+
+
+using namespace std;
+using namespace biblioteca;
+
+
+
+string obtenerIniciales(string cadena, int n)
+{
+    return cadena.substr(0, n);
+}
+
+string generarFolioTrabajador(string nTrabajador, string aPTrabajador, string aMTrabajador, string cTrabajador) 
+{
+    string folioT;
+
+
+
+    folioT += obtenerIniciales(nTrabajador, 3);
+    folioT += obtenerIniciales(aPTrabajador, 3);
+    folioT += obtenerIniciales(aMTrabajador, 3);
+    folioT += obtenerIniciales(cTrabajador, 3);
+
+
+    return folioT;
+}
+
+string generarFolioCliente(string nCliente, string aPCliente, string aMCliente, string cCliente) 
+{
+    string folioC;
+
+
+
+    folioC += obtenerIniciales(nCliente, 3);
+    folioC += obtenerIniciales(aPCliente, 3);
+    folioC += obtenerIniciales(aMCliente, 3);
+    folioC += obtenerIniciales(cCliente, 3);
+
+
+    return folioC;
+}
+
+string generarFolioLibro(string nlibro, string alibro, string glibro, string elibro) 
+{
+    string folioL;
+
+
+
+    folioL += obtenerIniciales(nlibro, 3);
+    folioL += obtenerIniciales(alibro, 3);
+    folioL += obtenerIniciales(glibro, 3);
+    folioL += obtenerIniciales(elibro, 3);
+
+
+    return folioL;
+}
+
+void registrarUsuario ()
+{
+    int tusuario;
+    int opc2;
+
+    cout << "\n\n1. Trabajador." << endl;
+    cout << "\n\n2. Cliente." << endl;
+    cout << "\n\nSelecciona el tipo de usuario:" << endl;
+
+    cin >> tusuario;
+
+
+
+    while (tusuario < 1 && tusuario > 2)
+    {
+        cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+
+        cout << "\n\n1. Trabajador." << endl;
+        cout << "\n\n2. Cliente." << endl;
+        cout << "\n\nSelecciona el tipo de usuario:" << endl;
+
+        cin >> tusuario;
+    }
+
+    if (tusuario == 1)
+    {
+        string nTrabajador, aPTrabajador, aMTrabajador, cTrabajador;
+
+
+
+        cout << "\n\nIngresa el nombre del trabajador:" << endl;
+        cin >> nTrabajador;
+
+        cout << "\n\nIngresa el apellido paterno del trabajador:" << endl;
+        cin >> aPTrabajador;
+
+        cout << "\n\nIngresa el apellido materno del trabajador:" << endl;
+        cin >> aMTrabajador;
+
+        cout << "\n\nIngresa el correo del trabajador:" << endl;
+        cin >> cTrabajador;
+
+
+        string folioT = generarFolioTrabajador(nTrabajador, aPTrabajador, aMTrabajador, cTrabajador);
+
+
+        cout << "\n\n----- FOLIO GENERADO EXITOSAMENTE. :) -----" << endl;
+        cout << "\n\nFolio de usuario: " << folioT << endl;
+
+        cout << "\n\n1. Registrar otro usuario. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+        cin >> opc2;
+
+
+
+        while (opc2 < 1 || opc2 > 2)
+        {
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+
+            cout << "\n\n1. Registrar otro usuario. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+            cin >> opc2;
+        }
+
+        if (opc2 == 1)
+        {
+            registrarUsuario();
+        }
+
+        if (opc2 == 2)
+        {
+            mostrarMenu();
+        }
+    }
+
+    if (tusuario == 2)
+    {
+        string nCliente, aPCliente, aMCliente, cCliente;
+
+
+
+        cout << "\n\nIngresa el nombre del cliente:" << endl;
+        cin >> nCliente;
+                
+        cout << "\n\nIngresa el apellido paterno del cliente:" << endl;
+        cin >> aPCliente;
+
+        cout << "\n\nIngresa el apellido materno del cliente:" << endl;
+        cin >> aMCliente;
+
+        cout << "\n\nIngresa el correo del cliente:" << endl;
+        cin >> cCliente;
+
+
+        string folioC = generarFolioCliente(nCliente, aPCliente, aMCliente, cCliente);
+
+
+        cout << "\n\n----- FOLIO GENERADO EXITOSAMENTE. :) -----" << endl;
+        cout << "\n\nFolio de usuario: " << folioC << endl;
+
+        cout << "\n\n1. Registrar otro usuario. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+        cin >> opc2;
+
+
+
+        while (opc2 < 1 || opc2 > 2)
+        {
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+
+            cout << "\n\n1. Registrar otro usuario. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+            cin >> opc2;
+        }
+
+        if (opc2 == 1)
+        {
+            registrarUsuario();
+        }
+
+        if (opc2 == 2)
+        {
+            mostrarMenu();
+        }
+    }
+}
+
+void mostrarMenu ()
+{
+    int opc;
+
+
+
+    cout << "\n\n ----- BIENVENIDO -----" << endl;
+    cout << "1. Registrar usuario." << endl;
+    cout << "2. Registrar nuevo libro." << endl;
+    cout << "3. Editar datos de libro." << endl;
+    cout << "4. Mostrar lista de libros." << endl;
+    cout << "5. Salir." << endl;
+    cout << "Selecciona una opcion: ";
+
+    cin >> opc;
+
+
+
+    if (opc == 1)
+    {
+
+    }
+
+    if (opc == 2)
+    {
+
+    }
+
+    if (opc == 3)
+    {
+
+    }
+
+    if (opc == 4)
+    {
+
+    }
+
+    if (opc == 5)
+    {
+
+    }
+
+    if (opc == 6)
+    {
+
+    }
+}
+
+
+int main() 
+{
+    Lista listaLibros; 
+    int op1;
+
+    int tusuario;
+
+
+
+    while (true) 
+    {
+        cout << "\n\n ----- BIENVENIDO -----" << endl;
+        cout << "1. Registrar usuario." << endl;
+        cout << "2. Registrar nuevo libro." << endl;
+        cout << "3. Editar datos de libro." << endl;
+        cout << "4. Mostrar lista de libros." << endl;
+        cout << "5. Salir." << endl;
+        cout << "Selecciona una opcion: ";
+        cin >> op1;
+
+
+
+        if (op1 == 1) 
+        {
+            cout << "\n\n1. Trabajador." << endl;
+            cout << "\n\n2. Cliente." << endl;
+            cout << "\n\nSelecciona el tipo de usuario:" << endl;
+
+            cin >> tusuario;
+
+
+
+            while (tusuario < 1 && tusuario > 2)
+            {
+                cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+
+                cout << "\n\n1. Trabajador." << endl;
+                cout << "\n\n2. Cliente." << endl;
+                cout << "\n\nSelecciona el tipo de usuario:" << endl;
+
+                cin >> tusuario;
+            }
+
+            if (tusuario == 1)
+            {
+                string nTrabajador, aPTrabajador, aMTrabajador, cTrabajador;
+
+
+
+                cout << "\n\nIngresa el nombre del trabajador:" << endl;
+                cin >> nTrabajador;
+
+                cout << "\n\nIngresa el apellido paterno del trabajador:" << endl;
+                cin >> aPTrabajador;
+
+                cout << "\n\nIngresa el apellido materno del trabajador:" << endl;
+                cin >> aMTrabajador;
+
+                cout << "\n\nIngresa el correo del trabajador:" << endl;
+                cin >> cTrabajador;
+
+
+                string folioT = generarFolioTrabajador(nTrabajador, aPTrabajador, aMTrabajador, cTrabajador);
+
+
+                cout << "\n\n----- FOLIO GENERADO EXITOSAMENTE. :) -----" << endl;
+                cout << "\n\nFolio de usuario: " << folioT << endl;
+
+                cout << "¿Deseas registrar otro usuario?" << endl;
+            }
+
+            if (tusuario == 2)
+            {
+                string nCliente, aPCliente, aMCliente, cCliente;
+
+
+
+                cout << "\n\nIngresa el nombre del cliente:" << endl;
+                cin >> nCliente;
+                
+                cout << "\n\nIngresa el apellido paterno del cliente:" << endl;
+                cin >> aPCliente;
+
+                cout << "\n\nIngresa el apellido materno del cliente:" << endl;
+                cin >> aMCliente;
+
+                cout << "\n\nIngresa el correo del cliente:" << endl;
+                cin >> cCliente;
+
+
+                string folioC = generarFolioCliente(nCliente, aPCliente, aMCliente, cCliente);
+
+
+                cout << "\n\n----- FOLIO GENERADO EXITOSAMENTE. :) -----" << endl;
+                cout << "\n\nFolio de usuario: " << folioC << endl;
+            }
+        }
+
+
+        if (op1 == 2)
+        {
+            string nlibro, alibro, glibro, elibro;
+            cout << "Ingresa el título del libro: ";
+            cin.ignore();
+            getline(cin, nlibro);
+            cout << "Ingresa el autor del libro: ";
+            getline(cin, alibro);
+            cout << "Ingresa el género del libro: ";
+            getline(cin, glibro);
+            cout << "Ingresa la editorial del libro: ";
+            getline(cin, elibro);
+
+            Libro nuevoLibro(nlibro, alibro, glibro, elibro);
+            listaLibros.agregar(nuevoLibro);
+            cout << "Libro registrado exitosamente." << endl;
+        }
+
+
+        if (op1 == 3) 
+        {
+            if (listaLibros.size() == 0) 
+            {
+                cout << "No hay libros registrados." << endl;
+            }
+            
+            else 
+            {
+                cout << "Lista de libros:\n" << listaLibros.lista();
+                int nlibro;
+                cout << "Selecciona el número del libro que deseas editar: ";
+                cin >> nlibro;
+
+
+
+                if (nlibro < 1 || nlibro > listaLibros.size()) 
+                {
+                    cout << "Índice no válido." << endl;
+                }
+                
+                else 
+                {
+                    Libro& libroSeleccionado = listaLibros.getLibro(nlibro - 1);
+                    int opcionEditar;
+
+
+
+                    cout << "1. Editar título\n2. Editar autor\n3. Editar género\n4. Editar editorial\n";
+                    cout << "Selecciona una opción: ";
+                    cin >> opcionEditar;
+
+                    cin.ignore();
+
+
+
+                    switch (opcionEditar) 
+                    {
+                        case 1: 
+                        {
+                            string nuevoTitulo;
+                            cout << "Nuevo título: ";
+                            getline(cin, nuevoTitulo);
+                            libroSeleccionado.setNlibro(nuevoTitulo);
+                            break;
+                        }
+
+                        case 2: 
+                        {
+                            string nuevoAutor;
+                            cout << "Nuevo autor: ";
+                            getline(cin, nuevoAutor);
+                            libroSeleccionado.setAlibro(nuevoAutor);
+                            break;
+                        }
+
+                        case 3: 
+                        {
+                            string nuevoGenero;
+                            cout << "Nuevo género: ";
+                            getline(cin, nuevoGenero);
+                            libroSeleccionado.setGlibro(nuevoGenero);
+                            break;
+                        }
+
+                        case 4: 
+                        {
+                            string nuevaEditorial;
+                            cout << "Nueva editorial: ";
+                            getline(cin, nuevaEditorial);
+                            libroSeleccionado.setElibro(nuevaEditorial);
+                            break;
+                        }
+
+                        default:
+                            cout << "Opción no válida." << endl;
+                    }
+                    cout << "Libro actualizado exitosamente." << endl;
+                }
+            }
+
+            break;
+        }
+
+
+        if (op1 == 4) 
+        {
+            cout << "Lista de libros:\n" << listaLibros.lista();
+        }
+
+
+        if (op1 == 5)
+        {
+            cout << "Saliendo del programa..." << endl;
+            return 0;
+        }
+    }
+}
