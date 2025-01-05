@@ -1,0 +1,11 @@
+Cambios:
+1. Se añadió clases "Lista" para libros, clientes y trabajadores.
+2. Ahora los clientes y trabajadores se almacenan en listas.
+
+
+
+Correcciones:
+
+1. Falta hacer clase abstracta "Usuario" con virtual void.
+2. Para ticket de préstamo de libros, usar archivos.
+3. Falta establecer fechas para determinar si hay multa o no.
