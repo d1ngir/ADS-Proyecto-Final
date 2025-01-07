@@ -1,0 +1,6 @@
+1. Implementar fechas a recibo y adeudos.
+2. Hacer que la opción “Salir” funcione correctamente XD.
+3. Generar archivos correctamente.
+4. Hacer que al abandonar programa, los datos ingresados se guarden.
+5. Hacer que los datos de las listas se guarden correctamente (creo que algunos campos de registro no coinciden, particularmente los de “libro”).
+6. Aunar folio de libro a lista de libros.
