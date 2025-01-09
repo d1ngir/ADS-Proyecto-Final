@@ -1,0 +1,966 @@
+void registrarUsuario();
+void registrarLibro();
+void editarLibro();
+void borrarLibro();
+void realizarPrestamo();
+void tramitarAdeudo();
+void mostrarLista();
+void salir();
+void mMenu();
+
+
+
+#include "libros.hpp"
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+#include <vector>
+#include <sstream>
+#include <fstream>
+
+
+
+using namespace std;
+using namespace biblioteca;
+
+
+
+Lista listaLibros;
+ListaCl listaClientes;
+ListaTr listaTrabajadores; 
+
+
+
+string obtenerIniciales(string cadena, int n)
+{
+    return cadena.substr(0, n);
+}
+
+string generarFolioTrabajador(string nTrabajador, string aPTrabajador, string aMTrabajador, string cTrabajador) 
+{
+    string folioT;
+
+
+
+    folioT += obtenerIniciales(nTrabajador, 3);
+    folioT += obtenerIniciales(aPTrabajador, 3);
+    folioT += obtenerIniciales(aMTrabajador, 3);
+    folioT += obtenerIniciales(cTrabajador, 3);
+
+
+    return folioT;
+}
+
+string generarFolioCliente(string nCliente, string aPCliente, string aMCliente, string cCliente) 
+{
+    string folioC;
+
+
+
+    folioC += obtenerIniciales(nCliente, 3);
+    folioC += obtenerIniciales(aPCliente, 3);
+    folioC += obtenerIniciales(aMCliente, 3);
+    folioC += obtenerIniciales(cCliente, 3);
+
+
+    return folioC;
+}
+
+string generarFolioLibro(string nlibro, string alibro, string glibro, string elibro) 
+{
+    string folioL;
+
+
+
+    folioL += obtenerIniciales(nlibro, 3);
+    folioL += obtenerIniciales(alibro, 3);
+    folioL += obtenerIniciales(glibro, 3);
+    folioL += obtenerIniciales(elibro, 3);
+
+
+    return folioL;
+}
+
+
+
+void registrarUsuario()
+{
+    int tusuario;
+    int opc2;
+
+    cout << "\n\n1. Trabajador." << endl;
+    cout << "\n2. Cliente." << endl;
+    cout << "\nSelecciona el tipo de usuario:";
+
+    cin >> tusuario;
+
+
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+        cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+        tusuario = 0;
+    }
+
+    while (tusuario < 1 || tusuario > 2)
+    {
+        cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+
+        cout << "\n\n1. Trabajador." << endl;
+        cout << "\n2. Cliente." << endl;
+        cout << "\nSelecciona el tipo de usuario:" << endl;
+
+        cin >> tusuario;
+    }
+
+    if (tusuario == 1)
+    {
+        string nTrabajador, aPTrabajador, aMTrabajador, cTrabajador;
+
+
+
+        cout << "\n\nIngresa el nombre del trabajador:" << endl;
+        cin >> nTrabajador;
+
+        cout << "\nIngresa el apellido paterno del trabajador:" << endl;
+        cin >> aPTrabajador;
+
+        cout << "\nIngresa el apellido materno del trabajador:" << endl;
+        cin >> aMTrabajador;
+
+        cout << "\nIngresa el correo del trabajador:" << endl;
+        cin >> cTrabajador;
+
+
+        string folioT = generarFolioTrabajador(nTrabajador, aPTrabajador, aMTrabajador, cTrabajador);
+
+        Trabajador nuevoTrabajador(folioT, nTrabajador, aPTrabajador, aMTrabajador, cTrabajador);
+        listaTrabajadores.agregar(nuevoTrabajador);
+
+
+        cout << "\n\n----- FOLIO GENERADO EXITOSAMENTE. :) -----" << endl;
+        cout << "\nFolio de usuario: " << folioT << endl;
+
+        cout << "\n\n1. Registrar otro usuario. \n 2. Volver al menu. \n Selecciona una opcion: " << endl;
+        cin >> opc2;
+
+
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+            opc2 = 0;
+        }
+
+        while (opc2 < 1 || opc2 > 2)
+        {
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+
+            cout << "\n\n1. Registrar otro usuario. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+            cin >> opc2;
+        }
+
+        if (opc2 == 1)
+        {
+            registrarUsuario();
+        }
+
+        if (opc2 == 2)
+        {
+            mMenu();
+        }
+    }
+
+    if (tusuario == 2)
+    {
+        string nCliente, aPCliente, aMCliente, cCliente;
+
+
+
+        cout << "\n\nIngresa el nombre del cliente:" << endl;
+        cin >> nCliente;
+                
+        cout << "\nIngresa el apellido paterno del cliente:" << endl;
+        cin >> aPCliente;
+
+        cout << "\nIngresa el apellido materno del cliente:" << endl;
+        cin >> aMCliente;
+
+        cout << "\nIngresa el correo del cliente:" << endl;
+        cin >> cCliente;
+
+
+        string folioC = generarFolioCliente(nCliente, aPCliente, aMCliente, cCliente);
+
+        Cliente nuevoCliente(folioC, nCliente, aPCliente, aMCliente, cCliente);
+        listaClientes.agregar(nuevoCliente);
+
+
+        cout << "\n\n----- FOLIO GENERADO EXITOSAMENTE. :) -----" << endl;
+        cout << "\nFolio de usuario: " << folioC << endl;
+
+        cout << "\n\n1. Registrar otro usuario. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+        cin >> opc2;
+
+
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+            opc2 = 0;
+        }
+
+        while (opc2 < 1 || opc2 > 2)
+        {
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+
+            cout << "\n\n1. Registrar otro usuario. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+            cin >> opc2;
+        }
+
+        if (opc2 == 1)
+        {
+            registrarUsuario();
+        }
+
+        if (opc2 == 2)
+        {
+            mMenu();
+        }
+    }
+}
+
+void registrarLibro()
+{
+    string nlibro, alibro, glibro, elibro;
+    int opc3;
+
+    cout << "\n\nIngresa el titulo del libro: " << endl;
+    cin.ignore();
+    getline(cin, nlibro);
+
+    cout << "\nIngresa el autor del libro: " << endl;
+    getline(cin, alibro);
+
+    cout << "\nIngresa el genero del libro: " << endl;
+    getline(cin, glibro);
+
+    cout << "\nIngresa la editorial del libro: " << endl;
+    getline(cin, elibro);
+
+    string folioL = generarFolioLibro(nlibro, alibro, glibro, elibro);
+
+    ofstream archivo("libros.txt", ios::app);
+    if (archivo.is_open())
+    {
+        archivo << nlibro << "|" << alibro << "|" << glibro << "|" << elibro << "\n";
+        archivo.close();
+
+        cout << "\n\n----- FOLIO GENERADO EXITOSAMENTE. :) -----" << endl;
+        cout << "\nFolio de libro: " << folioL << endl;
+    }
+    else
+    {
+        cout << "No se pudo abrir el archivo para guardar el libro." << endl;
+    }
+
+    cout << "\n\n1. Registrar otro libro.\n2. Volver al menu.\n\nSelecciona una opcion: " << endl;
+    cin >> opc3;
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+        cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+        opc3 = 0;
+    }
+
+    while (opc3 < 1 || opc3 > 2)
+    {
+        cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+        cout << "\n\n1. Registrar otro libro.\n2. Volver al menu.\n\nSelecciona una opcion: " << endl;
+        cin >> opc3;
+    }
+
+    if (opc3 == 1)
+    {
+        registrarLibro();
+    }
+
+    if (opc3 == 2)
+    {
+        mMenu();
+    }
+}
+
+void editarLibro()
+{
+    string archivoLibros = "libros.txt";
+    ifstream archivoEntrada(archivoLibros, ios::in);
+    vector<string> libros;
+    string linea;
+
+
+
+    if (archivoEntrada.is_open())
+    {
+        while (getline(archivoEntrada, linea))
+        {
+            libros.push_back(linea);
+        }
+        archivoEntrada.close();
+    }
+
+    else
+    {
+        cout << "\n\n ----- ERROR ----- \n No se pudo abrir el archivo \"" << archivoLibros << endl;
+        return;
+    }
+
+
+    cout << "\n\nLista de libros:\n";
+    for (size_t i = 0; i < libros.size(); ++i)
+    {
+        cout << i + 1 << ". " << libros[i] << endl;
+    }
+
+
+    int nlibro;
+    cout << "\n\nSelecciona el numero del libro que deseas editar (1-" << libros.size() << "): ";
+    cin >> nlibro;
+
+
+    while (cin.fail() || nlibro < 1 || nlibro > static_cast<int>(libros.size()))
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\n\n----- ERROR -----\nEl libro seleccionado no es valido. Intenta de nuevo." << endl;
+        cout << "\n\nSelecciona el numero del libro que deseas editar (1-" << libros.size() << "): ";
+        cin >> nlibro;
+    }
+
+
+    int opcionEditar;
+    cout << "1. Editar titulo.\n2. Editar autor.\n3. Editar genero.\n4. Editar editorial.\n";
+    cout << "Selecciona una opcion: ";
+    cin >> opcionEditar;
+    cin.ignore();
+
+    while (cin.fail() || opcionEditar < 1 || opcionEditar > 4)
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\n\n----- ERROR -----\nSelecciona una opcion valida." << endl;
+        cout << "1. Editar titulo.\n2. Editar autor.\n3. Editar genero.\n4. Editar editorial.\n";
+        cout << "Selecciona una opción: ";
+        cin >> opcionEditar;
+        cin.ignore();
+    }
+
+
+    stringstream ss(libros[nlibro - 1]);
+    string titulo, autor, genero, editorial;
+    getline(ss, titulo, '|');
+    getline(ss, autor, '|');
+    getline(ss, genero, '|');
+    getline(ss, editorial, '|');
+
+
+    switch (opcionEditar)
+    {
+        case 1:
+            cout << "Nuevo titulo: ";
+            getline(cin, titulo);
+            break;
+
+        case 2:
+            cout << "Nuevo autor: ";
+            getline(cin, autor);
+            break;
+
+        case 3:
+            cout << "Nuevo genero: ";
+            getline(cin, genero);
+            break;
+
+        case 4:
+            cout << "Nueva editorial: ";
+            getline(cin, editorial);
+            break;
+    }
+
+
+    libros[nlibro - 1] = titulo + "|" + autor + "|" + genero + "|" + editorial;
+
+
+    ofstream archivoSalida(archivoLibros, ios::trunc);
+    if (archivoSalida.is_open())
+    {
+        for (const auto& libro : libros)
+        {
+            archivoSalida << libro << "\n";
+        }
+        archivoSalida.close();
+        cout << "\n\n----- ¡LIBRO ACTUALIZADO EXITOSAMENTE! -----" << endl;
+    }
+
+    else
+    {
+        cout << "\n\nError al guardar los cambios en el archivo \"" << archivoLibros << "\"." << endl;
+        return;
+    }
+
+    int opc3;
+    cout << "\n\n1. Editar otro libro.\n2. Volver al menu.\n\nSelecciona una opcion: ";
+    cin >> opc3;
+
+    while (cin.fail() || opc3 < 1 || opc3 > 2)
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\n\n----- ERROR -----\nSelecciona una opcion valida." << endl;
+        cout << "\n\n1. Editar otro libro.\n2. Volver al menu.\n\nSelecciona una opcion: ";
+        cin >> opc3;
+    }
+
+    if (opc3 == 1)
+    {
+        editarLibro();
+    }
+    
+    if (opc3 == 2)
+    {
+        mMenu();
+    }
+}
+
+void borrarLibro()
+{
+    string archivoLibros = "libros.txt";
+    ifstream archivoEntrada(archivoLibros, ios::in);
+    vector<string> libros;
+    string linea;
+
+
+
+    if (archivoEntrada.is_open())
+    {
+        while (getline(archivoEntrada, linea))
+        {
+            libros.push_back(linea);
+        }
+        archivoEntrada.close();
+    }
+
+    else
+    {
+        cout << "\n\n ----- ERROR ----- \n No se pudo abrir el archivo \"" << archivoLibros << endl;
+        return;
+    }
+
+
+    cout << "\n\nLista de libros:\n";
+    for (size_t i = 0; i < libros.size(); ++i)
+    {
+        cout << i + 1 << ". " << libros[i] << endl;
+    }
+
+
+    int nlibro;
+    cout << "\n\nSelecciona el numero del libro que deseas borrar (1-" << libros.size() << "): ";
+    cin >> nlibro;
+
+
+    while (cin.fail() || nlibro < 1 || nlibro > static_cast<int>(libros.size()))
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\n\n----- ERROR -----\nEl libro seleccionado no es valido. Intenta de nuevo." << endl;
+        cout << "\n\nSelecciona el numero del libro que deseas borrar (1-" << libros.size() << "): ";
+        cin >> nlibro;
+    }
+
+
+    libros.erase(libros.begin() + nlibro - 1);
+
+
+    ofstream archivoSalida(archivoLibros, ios::trunc);
+    if (archivoSalida.is_open())
+    {
+        for (auto& libro : libros)
+        {
+            archivoSalida << libro << "\n";
+        }
+        archivoSalida.close();
+        cout << "\n\n----- ELIMINACION EXITOSA -----\nEl libro ha sido eliminado de la base de datos." << endl;
+    }
+
+    else
+    {
+        cout << "\n\nError al guardar los cambios en el archivo \"" << archivoLibros << "\"." << endl;
+        return;
+    }
+
+
+    int opc4;
+    cout << "\n\n1. Eliminar otro libro. \n2. Volver al menu. \n\nSelecciona una opcion: ";
+    cin >> opc4;
+
+    while (cin.fail() || opc4 < 1 || opc4 > 2)
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\n\n----- ERROR -----\nSelecciona una opcion valida." << endl;
+        cout << "\n\n1. Eliminar otro libro. \n2. Volver al menu. \n\nSelecciona una opcion: ";
+        cin >> opc4;
+    }
+
+    if (opc4 == 1)
+    {
+        borrarLibro();
+    }
+
+    if (opc4 == 2)
+    {
+        mMenu();
+    }
+}
+
+void realizarPrestamo()
+{
+    int nTrabajador, nCliente, nlibro;
+    int opc5;
+
+    ofstream archivo("ticketPrestamo.txt", ios::in | ios::out);
+
+
+
+    cout << "----- LISTA DE TRABAJADORES -----\n\n" << listaTrabajadores.listaTr();
+
+    cout << "\n\nSelecciona el numero del trabajador atendiendo ahora mismo: ";
+    cin >> nTrabajador;
+
+
+
+    if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+            cout << "\n\n----- LISTA DE TRABAJADORES -----\n\n" << listaTrabajadores.listaTr();
+            cout << "\nSelecciona el numero del trabajador atendiendo ahora mismo: ";
+
+            cin >> nTrabajador;
+            cin.ignore();
+        }
+
+    while (nTrabajador < 1 || nTrabajador > listaTrabajadores.size()) 
+    {
+        cout << "\n\n----- ERROR ----- \n No se encontro al trabajador..." << endl;
+        cout << "\n----- LISTA DE TRABAJADORES -----\n\n" << listaTrabajadores.listaTr();
+
+        cout << "\n\nSelecciona el numero del trabajador atendiendo ahora mismo: ";
+        cin >> nTrabajador;
+    }
+
+    cout << "----- LISTA DE CLIENTES -----\n\n" << listaClientes.listaCl();
+
+    cout << "\n\nSelecciona el numero del cliente atendido ahora mismo: ";
+    cin >> nCliente;
+
+
+
+    if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+            cout << "\n\n----- LISTA DE CLIENTES -----\n\n" << listaClientes.listaCl();
+
+            cout << "\n\nSelecciona el numero del cliente atendido ahora mismo: ";
+            cin >> nCliente;
+            cin.ignore();
+        }
+
+    while (nCliente < 1 || nCliente > listaClientes.size()) 
+    {
+        cout << "\n\n----- ERROR ----- \n No se encontro al cliente..." << endl;
+        cout << "\n\n----- LISTA DE CLIENTES -----\n\n" << listaClientes.listaCl();
+        cout << "\n\nSelecciona el numero del cliente atendido ahora mismo: ";
+        cin >> nCliente;
+        cin.ignore();
+    }
+
+
+    cout << "----- LISTA DE LIBROS -----\n\n" << listaLibros.lista();
+
+    cout << "\n\nSelecciona el numero del libro solicitado para el prestamo: ";
+    cin >> nlibro;
+
+
+
+    if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+            cout << "----- LISTA DE LIBROS -----\n\n" << listaLibros.lista();
+
+            cout << "\n\nSelecciona el numero del libro solicitado para el prestamo: ";
+            cin >> nlibro;
+            cin.ignore();
+        }
+
+    if (nlibro < 1 || nlibro > listaLibros.size()) 
+    {
+        cout << "\n\n----- ERROR ----- \n No se encontro el libro..." << endl;
+
+        return; 
+    }
+                
+    else 
+    {
+        string tr = listaTrabajadores.getTrabajador(nTrabajador - 1).toString(); 
+        string cl = listaClientes.getCliente(nCliente - 1).toString();            
+        string l = listaLibros.getLibro(nlibro - 1).toString();                 
+
+        ofstream archivo("/Users/eugeniahurtado/Desktop/ISM_Documentos_Proyecto final/ticketPrestamo.txt");
+
+        if (!archivo.is_open()) 
+        {
+            cout << "\n\n----- ERROR ----- \n No se pudo crear el archivo 'ticketPrestamo.txt'..." << endl;
+            return;
+        }
+
+        if (archivo.is_open())
+        {
+            archivo << "----- BIBLIOTECA ISM CORPORATION OHHHHHHHHHHH, S.A. -----";
+            archivo << "--------------- TICKET DE PRESTAMO ---------------\n\n";
+            archivo << "Trabajador Atendiendo: " << tr << "\n";
+            archivo << "Cliente Atendido: " << cl << "\n";
+            archivo << "Libro Solicitado: " << l << "\n";
+            archivo << "---------------------------------\n";
+            archivo << "Gracias por utilizar nuestros servicios.\n";
+            archivo.close();
+
+            cout << "\n\n----- TICKET DE PRESTAMO GENERADO EXITOSAMENTE. -----\n";
+
+            cout << "\n\n1. Generar otro ticket de prestamo. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+            cin >> opc5;
+
+
+
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+                cout << "\n\n1. Generar otro ticket de prestamo. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+                cin >> opc5;
+                cin.ignore();
+            }
+
+            while (opc5 < 1 || opc5 > 2)
+            {
+                cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+
+                cout << "\n\n1. Generar otro ticket de prestamo. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+                cin >> opc5;
+            }
+
+            if (opc5 == 1)
+            {
+                realizarPrestamo();
+            }
+
+            if (opc5 == 2)
+            {
+                mMenu();
+            }
+        }
+    }
+}
+
+void tramitarAdeudo()
+{
+    int nTrabajador, nCliente;
+    int opc6;
+
+
+
+    ofstream archivo("/Users/eugeniahurtado/Desktop/ISM_Documentos_Proyecto final/ticketAdeudo.txt", ios::in | ios::out);
+
+
+
+    cout << "----- LISTA DE CLIENTES -----\n\n" << listaClientes.listaCl();
+
+    cout << "\n\nSelecciona el numero del cliente adeudado: ";
+    cin >> nCliente;
+
+    
+
+    if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+            cout << "\n\n----- LISTA DE CLIENTES -----\n\n" << listaClientes.listaCl();
+
+            cout << "\n\nSelecciona el numero del cliente adeudado: ";
+            cin >> nCliente;
+            cin.ignore();
+        }
+
+    while (nCliente < 1 || nCliente > listaClientes.size()) 
+    {
+        cout << "\n\n----- ERROR ----- \n No se encontro al cliente..." << endl;
+        cout << "\n\n----- LISTA DE CLIENTES -----\n\n" << listaClientes.listaCl();
+        cout << "\n\nSelecciona el numero del cliente adeudado: ";
+        cin >> nCliente;
+        cin.ignore();
+    }
+
+    cout << "----- LISTA DE TRABAJADORES -----\n\n" << listaTrabajadores.listaTr();
+
+    cout << "\n\nSelecciona el numero del trabajador que atendio al cliente adeudado ";
+    cin >> nTrabajador;
+
+
+
+    if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+            cout << "\n\n----- LISTA DE TRABAJADORES -----\n\n" << listaTrabajadores.listaTr();
+            cout << "\nSelecciona el numero del trabajador atendiendo ahora mismo: ";
+
+            cin >> nTrabajador;
+            cin.ignore();
+        }
+
+    if (nTrabajador < 1 || nTrabajador > listaTrabajadores.size()) 
+    {
+        cout << "\n\n----- ERROR ----- \n No se encontro al trabajador..." << endl;
+
+        return; 
+    }
+
+    else
+    {
+        string tr = listaTrabajadores.getTrabajador(nTrabajador - 1).toString(); 
+        string cl = listaClientes.getCliente(nCliente - 1).toString();                         
+
+        ofstream archivo("/Users/eugeniahurtado/Desktop/ISM_Documentos_Proyecto final/ticketAdeudo.txt");
+
+        if (!archivo.is_open()) 
+        {
+            cout << "\n\n----- ERROR ----- \n No se pudo crear el archivo 'ticketAdeudo.txt'..." << endl;
+            return;
+        }
+
+        if (archivo.is_open())
+        {
+            archivo << "----- BIBLIOTECA ISM CORPORATION OHHHHHHHHHHH, S.A. -----";
+            archivo << "--------------- TICKET DE ADEUDO ---------------\n\n";
+            archivo << "Trabajador Atendiendo: " << tr << "\n";
+            archivo << "Cliente Atendido: " << cl << "\n";
+            archivo << "---------------------------------\n";
+            archivo << "Debes pagar tu deuda. De lo contrario, seras vetado de la biblioteca y popsteriormente demandado. :)\n";
+            archivo.close();
+
+            cout << "\n\n----- TICKET DE ADEUDO GENERADO EXITOSAMENTE. -----\n";
+
+            cout << "\n\n1. Generar otro ticket de adeudo. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+            cin >> opc6;
+
+
+
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+                cout << "\n\n1. Generar otro ticket de adeudo. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+                cin >> opc6;
+                cin.ignore();
+            }
+
+            while (opc6 < 1 || opc6 > 2)
+            {
+                cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+
+                cout << "\n\n1. Generar otro ticket de adeudo. \n 2. Volver al menu. \n\n Selecciona una opcion: " << endl;
+                cin >> opc6;
+            }
+
+            if (opc6 == 1)
+            {
+                tramitarAdeudo();
+            }
+
+            if (opc6 == 2)
+            {
+                mMenu();
+            }
+        }
+    }
+}
+
+void mostrarLista()
+{
+    string nombreArchivo = "libros.txt";
+    ifstream archivo(nombreArchivo, ios::in);
+
+    if (archivo.is_open())
+    {
+        string linea;
+        int indice = 1;
+
+        cout << "Lista de libros:\n";
+
+        while (getline(archivo, linea))
+        {
+            cout << indice++ << ". " << linea << "\n";
+        }
+
+        archivo.close();
+    }
+    else
+    {
+        cout << "No se pudo abrir el archivo para mostrar la lista." << endl;
+    }
+
+    int opc4;
+    cout << "\n\nPulsa 1 para volver..." << endl;
+    cin >> opc4;
+
+      if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+                
+                cin >> opc4;
+                cin.ignore();
+            }
+
+
+    while (opc4 != 1)
+    {
+        cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+        cout << "\n\nPulsa 1 para volver..." << endl;
+        cin >> opc4;
+    }
+
+    if (opc4 == 1)
+    {
+        mMenu();
+    }
+}
+
+void salir()
+{
+    string archivoLibros = "libros.txt";
+    listaLibros.guardarEnArchivo(archivoLibros);
+
+    cout << "Saliendo del programa..." << endl;
+    exit(0);
+}
+
+void mMenu()
+{
+    string archivoLibros = "libros.txt";
+
+    ifstream archivo(archivoLibros);
+    if (!archivo.is_open())
+    {
+        cout << "El archivo \"" << archivoLibros << "\" no existe. Creando uno vacío.\n";
+        ofstream nuevoArchivo(archivoLibros); // Crear archivo vacío
+        nuevoArchivo.close();
+    }
+
+    listaLibros.cargarDesdeArchivo(archivoLibros);
+
+
+    int opc;
+
+
+
+    cout << "\n\n ----- BIBLIOTECA ISM CORPORATION OHHHHHHHHHHH, S.A. -----" << endl;
+    cout << "1. Registrar usuarios." << endl;
+    cout << "2. Registrar un nuevo libro." << endl;
+    cout << "3. Editar datos de un libro." << endl;
+    cout << "4. Eliminar un libro." << endl;
+    cout << "5. Realizar la reservacion de un libro." << endl;
+    cout << "6. Tramitar un adeudo por infraccion." << endl;
+    cout << "7. Mostrar lista de libros." << endl;
+    cout << "8. Abandonar." << endl;
+    cout << "  \nSelecciona una opcion: ";
+
+    cin >> opc;
+
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+        cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+        opc = 0;
+    }
+    
+    if (opc < 1 || opc > 8)
+    {
+        cout << "\n\n----- ERROR -----\n Selecciona una opcion valida..." << endl;
+    }
+
+    if (opc == 1)
+    {
+        registrarUsuario();
+    }
+
+    if (opc == 2)
+    {
+        registrarLibro();
+    }
+
+    if (opc == 3)
+    {
+        editarLibro();
+    }
+
+    if (opc == 4)
+    {
+        borrarLibro();
+    }
+
+    if (opc == 5)
+    {
+        realizarPrestamo();
+    }
+
+    if (opc == 6)
+    {
+        tramitarAdeudo();
+    }
+
+    if (opc == 7)
+    {
+        mostrarLista();
+    }
+
+    if (opc == 8)
+    {
+        salir();
+    }
+}
+
+
+
+int main() 
