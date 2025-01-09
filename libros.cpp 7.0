@@ -1,0 +1,270 @@
+#include "libros.hpp"
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
+
+
+
+using namespace std;
+using namespace biblioteca;
+
+
+
+Libro::Libro()
+{
+    this->nlibro = "";
+    this->alibro = "";
+    this->glibro = "";
+    this->elibro = "";
+}
+
+Libro::Libro(string nlibro, string alibro, string glibro, string elibro)
+{
+    this->nlibro = nlibro;
+    this->alibro = alibro;
+    this->glibro = glibro;
+    this->elibro = elibro;
+}
+
+
+Trabajador::Trabajador()
+{
+    this->folio = "";
+    this->nombre = "";
+}
+
+Trabajador::Trabajador(string folio, string nombre, string prestamoc, string reservac, string multac)
+{
+    this->folio = folio;
+    this->nombre = nombre;
+}
+
+
+Cliente::Cliente()
+{
+    this->folio = "";
+    this->nombre = "";
+}
+
+Cliente::Cliente(string folio, string nombre, string prestamoc, string reservac, string multac)
+{
+    this->folio = folio;
+    this->nombre = nombre;
+}
+
+
+Lista::Lista() {}
+
+Lista::~Lista() {}
+
+int Lista::size() 
+{
+    return libros.size(); 
+}
+
+void Lista::agregar(Libro libro)
+{
+    libros.push_back(libro); 
+}
+
+void Lista::eliminar(int indiceL)
+{
+    if (indiceL >= 0 && indiceL < libros.size())
+    {
+        libros.erase(libros.begin() + indiceL); 
+    }
+    
+    else 
+    {    
+        throw out_of_range("Índice fuera de rango en Lista::eliminar");
+    }
+}
+
+
+
+vector<string> Lista::getLista()
+{
+    vector<string> nombres;
+
+
+
+    for (auto& libro:libros) 
+    {
+        nombres.push_back(libro.getNlibro());
+    }
+
+    return nombres;
+}
+
+
+string Lista::lista() 
+{
+    string resultado;
+
+
+
+    for (size_t i = 0; i < libros.size(); ++i) 
+    {
+        resultado += to_string(i + 1) + ". " + libros[i].getNlibro() + " - " + libros[i].getAlibro() + " - " + libros[i].getGlibro() + " - " + libros[i].getElibro() + "\n";
+    }
+
+    return resultado;
+}
+
+Libro& Lista::getLibro(int index) 
+{
+    return libros.at(index); 
+}
+
+
+void Lista::guardarEnArchivo(string& nombreArchivo) 
+{
+    ofstream archivo(nombreArchivo, ios::trunc);
+
+    if (archivo.is_open()) 
+    {
+        for (auto& libro : libros) 
+        {
+            archivo << libro.getNlibro() << "|" 
+                    << libro.getAlibro() << "|" 
+                    << libro.getGlibro() << "|" 
+                    << libro.getElibro() << "\n";
+        }
+        archivo.close();
+    } 
+
+    else 
+    {
+        throw runtime_error("No se pudo abrir el archivo para guardar.");
+    }
+}
+
+void Lista::cargarDesdeArchivo(string& nombreArchivo) 
+{
+    ifstream archivo(nombreArchivo, ios::in);
+
+    if (archivo.is_open()) 
+    {
+        libros.clear();
+        
+        string linea, nlibro, alibro, glibro, elibro;
+
+        while (getline(archivo, linea)) 
+        {
+            stringstream ss(linea);
+            getline(ss, nlibro, '|');
+            getline(ss, alibro, '|');
+            getline(ss, glibro, '|');
+            getline(ss, elibro, '|');
+
+            if (!nlibro.empty() && !alibro.empty() && !glibro.empty() && !elibro.empty())
+            {
+                libros.emplace_back(nlibro, alibro, glibro, elibro);
+            }
+        }
+        archivo.close();
+    } 
+
+    else 
+    {
+        throw runtime_error("No se pudo abrir el archivo para cargar.");
+    }
+}
+
+
+ListaCl::ListaCl() {}
+
+ListaCl::~ListaCl() {}
+
+int ListaCl::size() 
+{
+    return clientes.size(); 
+}
+
+void ListaCl::agregar(Cliente cliente)
+{
+    clientes.push_back(cliente); 
+}
+
+vector <string> ListaCl::getListaCl()
+{
+    vector<string> nombresCl;
+
+
+
+    for (auto& cliente:clientes) 
+    {
+        nombresCl.push_back(cliente.getNombre());
+    }
+
+    return nombresCl;
+}
+
+string ListaCl::listaCl() 
+{
+    string resultadoCl;
+
+
+
+    for (size_t i = 0; i < clientes.size(); ++i) 
+    {
+        resultadoCl += to_string(i + 1) + ". " + clientes[i].getFolio() + " - " + clientes[i].getNombre() + " - " + clientes[i].getPrestamoc() + " - " + clientes[i].getReservac() + " - " + to_string(clientes[i].getMultac()) + "\n";
+    }
+
+    return resultadoCl;
+}
+
+Cliente& ListaCl::getCliente(int numCl) 
+{
+    return clientes.at(numCl); 
+}
+
+
+ListaTr::ListaTr() {}
+
+ListaTr::~ListaTr() {}
+
+int ListaTr::size() 
+{
+    return trabajadores.size(); 
+}
+
+void ListaTr::agregar(Trabajador trabajador)
+{
+    trabajadores.push_back(trabajador); 
+}
+
+vector <string> ListaTr::getListaTr()
+{
+    vector< string> nombresTr;
+
+
+
+    for (auto& trabajador:trabajadores) 
+    {
+        nombresTr.push_back(trabajador.getNombre());
+    }
+
+    return nombresTr;
+}
+
+string ListaTr::listaTr() 
+{
+    string resultadoTr;
+
+
+
+    for (size_t i = 0; i < trabajadores.size(); ++i) 
+    {
+        resultadoTr += to_string(i + 1) + ". " + trabajadores[i].getNombre() + " - " + trabajadores[i].getFolio() + "\n";
+    }
+
+    return resultadoTr;
+}
+
+Trabajador& ListaTr::getTrabajador(int numTr) 
+{
+    return trabajadores.at(numTr); 
+}
